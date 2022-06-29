@@ -20,3 +20,4 @@ samples, guidance on mobile development, and a full API reference.
 # Deu ruim no outro teste
 # Mais um teste
 # Subindo arquivo para branch de testes
+# teste só pra garantir
