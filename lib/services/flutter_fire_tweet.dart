@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:twitter_api/domain/entities/user_data.dart';
 
 class FlutterFireTweet {
   FlutterFireTweet(this._context);
@@ -85,8 +84,20 @@ class FlutterFireTweet {
                   child: const Text('Postar'),
                   onPressed: () async {
                     final String content = _contentController.text;
+
+                    final FirebaseAuth auth = FirebaseAuth.instance;
+                    final User currentUser = auth.currentUser!;
+                    final uid = currentUser.uid;
+
                     if (content != null) {
-                      await _tweets.add({"content": content});
+                      await _tweets.add({
+                        "content": content,
+                        "qtd_likes": 0,
+                        "ref_id": null,
+                        "user_id": uid,
+                        "comments": null,
+                        "qtd_retweets": 0
+                      });
                       _contentController.text = '';
                       Navigator.of(_context).pop();
                     }
@@ -104,71 +115,4 @@ class FlutterFireTweet {
     ScaffoldMessenger.of(_context)
         .showSnackBar(const SnackBar(content: Text('Tweet Deletado')));
   }
-  // Future<UserData?> createUserWithEmailAndPassword(
-  //     String name, String arroba, String email, String password) async {
-  //   try {
-  //     final credential = await _auth.createUserWithEmailAndPassword(
-  //         email: email, password: password);
-
-  //     await credential.user?.updateDisplayName(name);
-
-  //     return UserData(
-  //       name: name,
-  //       email: email,
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     ScaffoldMessenger.of(_context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.message ?? 'Error Desconhecido'),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(_context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.toString()),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // Future<UserData?> signInWithEmailAndPassword(
-  //     String email, String password) async {
-  //   try {
-  //     final credential = await _auth.signInWithEmailAndPassword(
-  //         email: email, password: password);
-
-  //     return UserData(
-  //       name: credential.user?.displayName,
-  //       email: credential.user?.email,
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     ScaffoldMessenger.of(_context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.message ?? 'Error Desconhecido'),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(_context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(e.toString()),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // UserData? getLoggerUser() {
-  //   final user = _auth.currentUser;
-  //   if (user == null) {
-  //     return null;
-  //   }
-
-  //   return UserData(
-  //     name: user.displayName,
-  //     email: user.email,
-  //   );
-  // }
-
-  // Future<void> singOut() async {
-  //   await _auth.signOut();
-  // }
 }

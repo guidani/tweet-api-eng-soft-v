@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_api/domain/entities/user_data.dart';
 import 'package:twitter_api/presentation/api/login_screen.dart';
@@ -53,7 +54,7 @@ class _FeedPageState extends State<FeedPage> {
                       title: Text(documentSnapshot['content']),
                       subtitle: Text(documentSnapshot['qtd_likes'].toString()),
                       trailing: SizedBox(
-                        width: 100,
+                        width: 150,
                         child: Row(children: [
                           IconButton(
                               onPressed: () async =>
@@ -65,6 +66,9 @@ class _FeedPageState extends State<FeedPage> {
                               onPressed: () async =>
                                   await FlutterFireTweet(context)
                                       .delete(documentSnapshot.id)),
+                          IconButton(
+                              icon: const Icon(CupertinoIcons.heart_solid),
+                              onPressed: () {})
                         ]),
                       ),
                     ),

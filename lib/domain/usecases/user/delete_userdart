@@ -1,0 +1,15 @@
+import 'package:twitter_api/domain/repositories/user_repository.dart';
+
+class DeleteUser {
+  final UserRepository userRepository;
+
+  DeleteUser(this.userRepository);
+
+  Future<bool>? execute(int id) async {
+    bool? res = await userRepository.deleteUser(id);
+    if (!res!) {
+      return false;
+    }
+    return true;
+  }
+}
